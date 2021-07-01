@@ -60,7 +60,7 @@ def convert_roberta_checkpoint_to_pytorch(
         num_hidden_layers=roberta.model.args.encoder_layers,
         num_attention_heads=roberta.model.args.encoder_attention_heads,
         intermediate_size=roberta.model.args.encoder_ffn_embed_dim,
-        max_position_embeddings=514,
+        max_position_embeddings=roberta_sent_encoder.embed_positions.num_embeddings,
         type_vocab_size=1,
         layer_norm_eps=1e-5,  # PyTorch default used in fairseq
     )
@@ -141,6 +141,7 @@ def convert_roberta_checkpoint_to_pytorch(
 
     # Let's check that we get the same results.
     input_ids: torch.Tensor = roberta.encode(SAMPLE_TEXT).unsqueeze(0)  # batch of size 1
+    print(input_ids.numpy())
 
     our_output = model(input_ids)[0]
     if classification_head:
