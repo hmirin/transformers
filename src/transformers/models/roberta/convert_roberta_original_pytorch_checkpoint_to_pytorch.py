@@ -141,7 +141,6 @@ def convert_roberta_checkpoint_to_pytorch(
 
     # Let's check that we get the same results.
     input_ids: torch.Tensor = roberta.encode(SAMPLE_TEXT).unsqueeze(0)  # batch of size 1
-    print(input_ids.numpy())
 
     our_output = model(input_ids)[0]
     if classification_head:
